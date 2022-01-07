@@ -1,10 +1,12 @@
+
 'use strict';
+
 
 const overlay = document.querySelector('.overlay.active ');
 const td = document.querySelector('.table__body');
+const tdsell = document.querySelector('.table__body .table__cell');
 
 overlay.classList.remove('active');
-
 
 const createRow = (objarr) => {
 
@@ -12,13 +14,16 @@ const createRow = (objarr) => {
 
 	newtr.innerHTML = `
 			<tr>
-				<td class="table__cell ">${objarr.id + 1}</td>
-				<td class="table__cell table__cell_left" data-id="24601654816512">${objarr.title}</td>
+				<td class="table__cell ">${tdsell.innerHTML}</td>
+				<td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
+					<span class="table__cell-id">id:${objarr.id}</span>
+					${objarr.title}
+				</td>
 				<td class="table__cell table__cell_left">${objarr.category}</td>
 				<td class="table__cell">шт</td>
 				<td class="table__cell">${objarr.count}</td>
 				<td class="table__cell">${objarr.price}</td>
-				<td class="table__cell">${objarr.count * objarr.price}</td>
+				<td class="table__cell">${objarr.count*objarr.price}</td>
 				<td class="table__cell table__cell_btn-wrapper">
 					<button class="table__btn table__btn_pic"></button>
 					<button class="table__btn table__btn_edit"></button>
@@ -26,8 +31,8 @@ const createRow = (objarr) => {
 				</td>
 			</tr>
 		`;
-	console.log(newtr);
-
+		console.log(newtr);
+	
 	return newtr;
 }
 
@@ -40,6 +45,7 @@ const objarr = [
 		"category": "mobile-phone",
 		"discont": false,
 		"count": 3,
+		"units": "шт",
 		"images": {
 			"small": "img/smrtxiaomi11t-m.jpg",
 			"big": "img/smrtxiaomi11t-b.jpg"
@@ -53,6 +59,7 @@ const objarr = [
 		"category": "toys",
 		"discont": 5,
 		"count": 1,
+		"units": "шт",
 		"images": {
 			"small": "img/cheetancar-m.jpg",
 			"big": "img/cheetancar-b.jpg"
@@ -66,22 +73,35 @@ const objarr = [
 		"category": "tv-box",
 		"discont": 15,
 		"count": 4,
+		"units": "шт",
 		"images": {
 			"small": "img/tvboxmecool-m.jpg",
 			"big": "img/tvboxmecool-b.jpg"
+		}
+	},
+	{
+		"id": 4,
+		"title": "Витая пара PROConnect 01-0043-3-25",
+		"price": 22,
+		"description": "Витая пара Proconnect 01-0043-3-25 является сетевым кабелем с 4 парами проводов типа UTP, в качестве проводника в которых используется алюминий, плакированный медью CCA. Такая неэкранированная витая пара с одножильными проводами диаметром 0.50 мм широко применяется в процессе сетевых монтажных работ. С ее помощью вы сможете обеспечить развертывание локальной сети в домашних условиях или на предприятии, объединить все необходимое вам оборудование в единую сеть.",
+		"category": "cables",
+		"discont": false,
+		"count": 420,
+		"units": "v",
+		"images": {
+			"small": "img/lan_proconnect43-3-25.jpg",
+			"big": "img/lan_proconnect43-3-25-b.jpg"
 		}
 	}
 ]
 
 const renderGoods = (arr) => {
 
-	for (let i = 0; i < arr.length; i++) {
-		let el = createRow(arr[i]);
-
+	arr.forEach((item, index) => {
+		let el = createRow(arr[index]);
 		td.append(el);
-
-	}
-
-}
+		tdsell.innerHTML = index;
+	})
+};
 
 renderGoods(objarr);
