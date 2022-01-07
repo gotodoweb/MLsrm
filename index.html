@@ -12,8 +12,8 @@
 	<link rel="preload" href="fonts/inter-v7-latin_cyrillic-700.woff2" as="font" type="font/woff2" crossorigin>
 
 	<link rel="stylesheet" href="css/index.css">
-	<title>CRM</title>
 	<script defer src="index.js"></script>
+	<title>CRM</title>
 </head>
 
 <body>
@@ -40,7 +40,7 @@
 				<div class="goods__table-wrapper">
 					<table class="goods__table table">
 						<thead class="table__header">
-							<tr>
+							<tr class="table__header-row">
 								<th class="table__header-cell">№</th>
 								<th class="table__header-cell table__header-cell_left">Наименование</th>
 								<th class="table__header-cell table__header-cell_left">Категория</th>
@@ -53,9 +53,11 @@
 						</thead>
 						<tbody class="table__body">
 							<tr>
-								<td class="table__cell ">1</td>
-								<td class="table__cell table__cell_left" data-id="24601654816512">Навигационная система
-									Soundmax</td>
+								<td class="table__cell">1</td>
+								<td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
+									<span class="table__cell-id">id: 24601654816512</span>
+									Навигационная система Soundmax
+								</td>
 								<td class="table__cell table__cell_left">Техника для дома</td>
 								<td class="table__cell">шт</td>
 								<td class="table__cell">5</td>
@@ -67,9 +69,33 @@
 									<button class="table__btn table__btn_del"></button>
 								</td>
 							</tr>
+							<tr>
+								<td class="table__cell ">2</td>
+								<td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
+									<span class="table__cell-id">id: 24601654816512</span>Телевизор DEXP
+								</td>
+								<td class="table__cell table__cell_left">Техника для дома</td>
+								<td class="table__cell">шт</td>
+								<td class="table__cell">15</td>
+								<td class="table__cell">$1000</td>
+								<td class="table__cell">$15000</td>
+								<td class="table__cell table__cell_btn-wrapper">
+									<button class="table__btn table__btn_pic"></button>
+									<button class="table__btn table__btn_edit"></button>
+									<button class="table__btn table__btn_del"></button>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 
+
+
+				</div>
+				<div class="sub-panel">
+					<p class="sub-panel__choice-pages">Показывать на странице: 5</p>
+					<p class="sub-panel__pages">1-10 из 48</p>
+					<a href="#" class="sub-panel__left"></a>
+					<a href="#" class="sub-panel__right"></a>
 				</div>
 			</div>
 
@@ -80,9 +106,8 @@
 	<div class="overlay active">
 		<div class="overlay__modal modal">
 			<button class="modal__close">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M2 2L22 22" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-					<path d="M2 22L22 2" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+				<svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="m2 2 20 20M2 22 22 2" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
 				</svg>
 			</button>
 
