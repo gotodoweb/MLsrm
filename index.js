@@ -58,13 +58,15 @@ const objarr = [
 			"big": "img/lan_proconnect43-3-25-b.jpg"
 		}
 	}
+
 ]
 
 const overlay = document.querySelector('.overlay.active ');
 const td = document.querySelector('.table__body');
 const tdcell = document.querySelector('.table__body .table__cell');
-let b = 3;
+const tr = document.getElementsByTagName('tr');
 
+let b = tr.length;
 
 
 overlay.classList.remove('active');
@@ -93,6 +95,7 @@ const createRow = (objarr) => {
 				</td>
 			</tr>
 		`;
+	console.log(newtr);
 
 	return newtr;
 }
@@ -102,15 +105,12 @@ const createRow = (objarr) => {
 
 const renderGoods = (arr) => {	
 
-	arr.forEach((item, index, arr) => {
-		
+	arr.forEach((item, index, arr) => {		
 		let el = createRow(item);
 		td.append(el);	
 		console.log(index);
-		b = index + 4;
-
-		
-	})	
+		b += 1;		
+	})
 };
 
 renderGoods(objarr);
