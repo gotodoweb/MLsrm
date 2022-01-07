@@ -1,41 +1,6 @@
 
 'use strict';
 
-
-const overlay = document.querySelector('.overlay.active ');
-const td = document.querySelector('.table__body');
-const tdsell = document.querySelector('.table__body .table__cell');
-
-overlay.classList.remove('active');
-
-const createRow = (objarr) => {
-
-	let newtr = document.createElement('tr');
-
-	newtr.innerHTML = `
-			<tr>
-				<td class="table__cell ">${tdsell.innerHTML}</td>
-				<td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
-					<span class="table__cell-id">id:${objarr.id}</span>
-					${objarr.title}
-				</td>
-				<td class="table__cell table__cell_left">${objarr.category}</td>
-				<td class="table__cell">шт</td>
-				<td class="table__cell">${objarr.count}</td>
-				<td class="table__cell">${objarr.price}</td>
-				<td class="table__cell">${objarr.count*objarr.price}</td>
-				<td class="table__cell table__cell_btn-wrapper">
-					<button class="table__btn table__btn_pic"></button>
-					<button class="table__btn table__btn_edit"></button>
-					<button class="table__btn table__btn_del"></button>
-				</td>
-			</tr>
-		`;
-		console.log(newtr);
-	
-	return newtr;
-}
-
 const objarr = [
 	{
 		"id": 1,
@@ -95,13 +60,57 @@ const objarr = [
 	}
 ]
 
-const renderGoods = (arr) => {
+const overlay = document.querySelector('.overlay.active ');
+const td = document.querySelector('.table__body');
+const tdcell = document.querySelector('.table__body .table__cell');
+let b = 3;
 
-	arr.forEach((item, index) => {
-		let el = createRow(arr[index]);
-		td.append(el);
-		tdsell.innerHTML = index;
-	})
+
+
+overlay.classList.remove('active');
+
+
+const createRow = (objarr) => {
+
+	let newtr = document.createElement('tr');
+
+	newtr.innerHTML = `
+			<tr>
+				<td class="table__cell">${b}</td>
+				<td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
+					<span class="table__cell-id">id:${objarr.id}</span>
+					${objarr.title}
+				</td>
+				<td class="table__cell table__cell_left">${objarr.category}</td>
+				<td class="table__cell">шт</td>
+				<td class="table__cell">${objarr.count}</td>
+				<td class="table__cell">${objarr.price}</td>
+				<td class="table__cell">${objarr.count * objarr.price}</td>
+				<td class="table__cell table__cell_btn-wrapper">
+					<button class="table__btn table__btn_pic"></button>
+					<button class="table__btn table__btn_edit"></button>
+					<button class="table__btn table__btn_del"></button>
+				</td>
+			</tr>
+		`;
+
+	return newtr;
+}
+
+
+
+
+const renderGoods = (arr) => {	
+
+	arr.forEach((item, index, arr) => {
+		
+		let el = createRow(item);
+		td.append(el);	
+		console.log(index);
+		b = index + 4;
+
+		
+	})	
 };
 
 renderGoods(objarr);
