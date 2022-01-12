@@ -66,6 +66,15 @@ const td = document.querySelector('.table__body');
 const tdcell = document.querySelector('.table__body .table__cell');
 const tr = document.getElementsByTagName('tr');
 
+const addbtn = document.querySelector('.panel__add-goods');
+
+const btnclose = document.querySelector('.modal__close');
+
+const form = document.querySelector('.modal__form');
+
+
+
+
 let b = tr.length;
 
 
@@ -95,7 +104,7 @@ const createRow = (objarr) => {
 				</td>
 			</tr>
 		`;
-	console.log(newtr);
+	// console.log(newtr);
 
 	return newtr;
 }
@@ -108,9 +117,25 @@ const renderGoods = (arr) => {
 	arr.forEach((item, index, arr) => {		
 		let el = createRow(item);
 		td.append(el);	
-		console.log(index);
+		// console.log(index);
 		b += 1;		
+	});
+
+	addbtn.addEventListener('click', () => {
+		overlay.classList.add('active');
+	});
+
+	btnclose.addEventListener('click', () => {
+		overlay.classList.remove('active');
+	});
+
+	form.addEventListener('click', event => {
+		event.stopPropagation();
 	})
+
+	overlay.addEventListener('click', () => {
+		overlay.classList.remove('active');
+	});
 };
 
 renderGoods(objarr);
