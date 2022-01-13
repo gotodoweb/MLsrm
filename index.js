@@ -71,11 +71,11 @@ const addbtn = document.querySelector('.panel__add-goods');
 const btnclose = document.querySelector('.modal__close');
 
 const form = document.querySelector('.modal__form');
+const overmod = document.querySelector('.overlay__modal');
 
 
 
-
-let b = tr.length;
+let trcount = tr.length;
 
 
 overlay.classList.remove('active');
@@ -87,7 +87,7 @@ const createRow = (objarr) => {
 
 	newtr.innerHTML = `
 			<tr>
-				<td class="table__cell">${b}</td>
+				<td class="table__cell">${trcount}</td>
 				<td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
 					<span class="table__cell-id">id:${objarr.id}</span>
 					${objarr.title}
@@ -118,7 +118,7 @@ const renderGoods = (arr) => {
 		let el = createRow(item);
 		td.append(el);	
 		// console.log(index);
-		b += 1;		
+		trcount += 1;		
 	});
 
 	addbtn.addEventListener('click', () => {
@@ -129,7 +129,7 @@ const renderGoods = (arr) => {
 		overlay.classList.remove('active');
 	});
 
-	form.addEventListener('click', event => {
+	overmod.addEventListener('click', event => {
 		event.stopPropagation();
 	})
 
