@@ -116,6 +116,7 @@ const renderGoods = (arr) => {
 
 	arr.forEach((item, index, arr) => {		
 		let el = createRow(item);
+		el.classList.add('contact');
 		td.append(el);	
 		// console.log(index);
 		trcount += 1;		
@@ -125,6 +126,7 @@ const renderGoods = (arr) => {
 		overlay.classList.add('active');
 	});
 
+	/*
 	btnclose.addEventListener('click', () => {
 		overlay.classList.remove('active');
 	});
@@ -136,6 +138,41 @@ const renderGoods = (arr) => {
 	overlay.addEventListener('click', () => {
 		overlay.classList.remove('active');
 	});
+	*/
+
+	// используем делегирование для закрытия модального окна
+	overlay.addEventListener('click', e => {
+		const target = e.target;
+		if (target.classList.contains('active') || target.closest('.modal__close')) {
+			// console.log(target);
+			overlay.classList.remove('active');
+		}
+	});
+
+
+	td.addEventListener('click', el => {
+		const target = el.target;
+		if (target.closest('.table__btn.table__btn_del')) {
+			
+			el.target.closest('.contact').remove();
+			// удаляем из массива объект
+			let first = target.closest('tr');
+			let num = (first.firstElementChild);			
+			const index = Number(num.innerHTML);
+			console.log('index', index);
+
+			if(index>=3) {
+				let i = objarr[index - 3];
+				console.log('Объект который удаляем((id+3) c учетом разметки)', i);
+
+				delete objarr[index - 3];
+				console.log('Массив после удаления', objarr);
+			}
+
+		};
+
+	});
+
 };
 
 renderGoods(objarr);
