@@ -74,12 +74,31 @@ const form = document.querySelector('.modal__form');
 const overmod = document.querySelector('.overlay__modal');
 
 
-
 let trcount = tr.length;
 
-
 overlay.classList.remove('active');
+/****************LESSON7************************************************** */
 
+const { name, category, description, units, discount, discount_count, count, price, image, total } = form;
+
+const vendorid = document.querySelector('.vendor-code__id');
+const crmtotol = document.querySelector('.crm__total-price');
+
+
+const getvendorid = () => {
+	function getRandomInRange(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	return getRandomInRange(1, 100000000);
+};
+
+
+let itogo;
+let sumarr = [];
+let arrsum;
+let allstr;
+
+/****************LESSON7************************************************************* */
 
 const createRow = (objarr) => {
 
@@ -88,15 +107,15 @@ const createRow = (objarr) => {
 	newtr.innerHTML = `
 			<tr>
 				<td class="table__cell">${trcount}</td>
-				<td class="table__cell table__cell_left table__cell_name" data-id="24601654816512">
+				<td class="table__cell table__cell_left table__cell_name" data-id=${getvendorid()}>
 					<span class="table__cell-id">id:${objarr.id}</span>
 					${objarr.title}
 				</td>
 				<td class="table__cell table__cell_left">${objarr.category}</td>
-				<td class="table__cell">шт</td>
+				<td class="table__cell">${objarr.units}</td>
 				<td class="table__cell">${objarr.count}</td>
-				<td class="table__cell">${objarr.price}</td>
-				<td class="table__cell">${objarr.count * objarr.price}</td>
+				<td class="table__cell">$${objarr.price}</td>
+				<td class="table__cell">$${objarr.count * objarr.price}</td>
 				<td class="table__cell table__cell_btn-wrapper">
 					<button class="table__btn table__btn_pic"></button>
 					<button class="table__btn table__btn_edit"></button>
@@ -104,13 +123,105 @@ const createRow = (objarr) => {
 				</td>
 			</tr>
 		`;
-	// console.log(newtr);
+	
+	allstr = newtr.querySelectorAll('.table__cell');
+	const sum = allstr[6].innerHTML;
+	let newsum = sum.replace('$', '');
+	newsum = Number(newsum);
+	
+	sumarr.push(newsum);
 
+	let arrsum = sumarr.reduce((a, b) => a + b, 0);
+	// console.log('arrsum', arrsum);
+
+	const crmtotol = document.querySelector('.crm__total-price');
+	// console.log('crmtotol: ', crmtotol.innerHTML);
+	crmtotol.innerHTML = `$ ${arrsum + 15500}`;
+	itogo = `${arrsum + 15500}`
 	return newtr;
 }
+/***********************LESSON7**************************************************** */
 
+const modalControl = () => {
+	addbtn.addEventListener('click', () => {
+		overlay.classList.add('active');
+		let dataid = getvendorid();
+		vendorid.innerHTML = dataid;
+		form.total.value = '';
+	});
+}
 
+const deleteContol = () => {
+	// используем делегирование для закрытия модального окна
+	overlay.addEventListener('click', e => {
+		const target = e.target;
+		if (target.classList.contains('active') || target.closest('.modal__close')) {
+			// console.log(target);
+			overlay.classList.remove('active');
+		}
+	});
 
+	let delpush = [];
+	td.addEventListener('click', el => {
+
+		const target = el.target;
+		// console.log(target);
+
+		if (target.closest('.table__btn.table__btn_del')) {
+			
+			el.target.closest('.contact').remove();
+
+			// удаляем из массива объект
+			let first = target.closest('tr');
+			// console.log('first', first);
+			let num = (first.firstElementChild);
+			// console.log('num', num);
+			const index = Number(num.innerHTML);
+			// console.log('index', index);
+
+			if (index >= 3) {
+
+				let i = objarr[index - 3];
+				// console.log('allstr[6].innerHTML)', allstr[6].innerHTML);
+
+				let delneed = target.closest('.table__cell');
+
+				console.log('delneed', delneed.previousElementSibling);
+				let del = delneed.previousElementSibling.innerHTML;
+				// console.log('del', del);
+				let newdelneed = del.replace('$', '');
+				newdelneed = Number(newdelneed);
+				// console.log('newdelneed', newdelneed);
+
+				delpush.push(newdelneed);
+
+				let d = delpush.reduce((a, b) => a + b, 0);
+
+				let needl = Number(d);
+				// console.log('needl', needl);
+
+				// console.log('itogo', itogo);
+				crmtotol.innerHTML = `$${itogo - needl}`;
+
+				console.log('Объект который удаляем((id+3) c учетом разметки)', i);
+				delete objarr[index - 3];
+				// console.log('Массив после удаления', objarr);
+
+				console.log('/***************/');
+
+			} else {
+				if (index === 2) {
+					crmtotol.innerHTML = `$${500}`;
+				}
+				if (index === 1) {
+					crmtotol.innerHTML = `$${0}`;
+				}
+			}
+
+		};
+
+	});
+}
 
 const renderGoods = (arr) => {	
 
@@ -122,54 +233,74 @@ const renderGoods = (arr) => {
 		trcount += 1;		
 	});
 
-	addbtn.addEventListener('click', () => {
-		overlay.classList.add('active');
+	modalControl();
+	deleteContol();
+	form.name.required = true;
+	form.category.required = true;
+	form.description.required = true;
+	form.units.required = true;
+	form.discount.required = true;
+	form.discount_count.required = true;
+	form.count.required = true;
+	form.price.required = true;
+	form.total.required = true;
+
+
+	form.discount.addEventListener('click', () => {
+		// const target = e.target;
+
+		if (form.discount.checked) {
+		
+			form.discount_count.removeAttribute('disabled');
+			form.discount_count.addEventListener('change', () => {
+				// console.log('form.discount_count.value', form.discount_count.value);
+				// console.log('form.discount_count', form.discount_count);
+			});
+		} else {			
+			form.discount_count.value = '';
+			form.discount_count.setAttribute('disabled', 'true');
+		}
+
 	});
 
-	/*
-	btnclose.addEventListener('click', () => {
-		overlay.classList.remove('active');
-	});
-
-	overmod.addEventListener('click', event => {
-		event.stopPropagation();
-	})
-
-	overlay.addEventListener('click', () => {
-		overlay.classList.remove('active');
-	});
-	*/
-
-	// используем делегирование для закрытия модального окна
-	overlay.addEventListener('click', e => {
-		const target = e.target;
-		if (target.classList.contains('active') || target.closest('.modal__close')) {
-			// console.log(target);
-			overlay.classList.remove('active');
+	form.price.addEventListener('focus', () => {
+		// const target = e.target;
+		if ((form.price.value !== '') && (form.count.value !== '')) {
+			form.total.value = `$ ${form.count.value * form.price.value}`;
+			// console.log('form.total,value', form.total.value);
 		}
 	});
 
+	form.addEventListener('submit', e => {
+		e.preventDefault();
+		
+		const formData = new FormData(e.target);
+	
+		let newcontact = Object.fromEntries(formData.entries());
+		// console.log('newcontact', newcontact);
+		// console.log(createRow(newcontact));
 
-	td.addEventListener('click', el => {
-		const target = el.target;
-		if (target.closest('.table__btn.table__btn_del')) {
-			
-			el.target.closest('.contact').remove();
-			// удаляем из массива объект
-			let first = target.closest('tr');
-			let num = (first.firstElementChild);			
-			const index = Number(num.innerHTML);
-			console.log('index', index);
 
-			if(index>=3) {
-				let i = objarr[index - 3];
-				console.log('Объект который удаляем((id+3) c учетом разметки)', i);
-
-				delete objarr[index - 3];
-				console.log('Массив после удаления', objarr);
-			}
+		const newcon = () => {
+			let vcid = getvendorid();		
+			vendorid.innerHTML = vcid;
+			newcontact.id = vcid;
+			// console.log('newcontact.id', newcontact.id);
+			newcontact.title = form.name.value
+			let el = createRow(newcontact);
+			el.classList.add('contact');
+			td.append(el);
+			// console.log(index);
+			trcount += 1;
 
 		};
+
+		newcon();
+
+		form.total.value = '';
+		form.reset();
+		form.total.value = '';
+		form.discount_count.setAttribute('disabled', 'true');
 
 	});
 
