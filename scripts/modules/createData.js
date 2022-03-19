@@ -35,12 +35,14 @@ export const base = {
 				<td class="table__cell">$${objarr.price}</td>
 				<td class="table__cell">$${objarr.count * objarr.price}</td>
 				<td class="table__cell table__cell_btn-wrapper">
-					<button class="table__btn table__btn_pic"></button>
+					<button class="table__btn table__btn_pic" data-pic=''></button>
 					<button class="table__btn table__btn_edit"></button>
 					<button class="table__btn table__btn_del"></button>
 				</td>
 			</tr>
 		`;
+
+		
 		trcount += 1;
 		let allstr = newtr.querySelectorAll('.table__cell');;
 
@@ -62,6 +64,7 @@ export const base = {
 		};
 
 		this.less = 0;
+		console.log('newtr', newtr);
 		return newtr;
 	},
 	addel(formData, form, overlay) {
@@ -82,8 +85,21 @@ export const base = {
 		el.classList.add('contact');
 		tb.append(el);
 		
+
+
 		base.arr.push(newcontact);
+
+		/************/
 	
+		console.log('base.iamge.image', form.image.value);
+
+		const buttonPi = document.querySelector('.table__btn.table__btn_pic');
+		let oldString = form.image.value;
+
+		buttonPi.dataset.pic = oldString;
+		
+		/********** */
+
 		base.calculateItemPrice(base.arr, form);
 		deleteData(base.arr, form);
 
@@ -92,6 +108,39 @@ export const base = {
 		form.total.value = '';
 		form.discount_count.setAttribute('disabled', 'true');
 		overlay.classList.remove('active');	
+
+		//  ML3L1
+		const buttonPic = document.querySelectorAll('.table__btn.table__btn_pic');
+		if (buttonPic.length >= 1) {
+
+			for (el of buttonPic) {
+
+				el.addEventListener('click', () => {
+					console.log('click');
+					el.dataset.pic = './img/car.jpg';
+					// el.dataset.pic = form.image.value;
+					// el.dataset.pic = 'index.html';
+					// buttonPic.setAttribute('data-pic', 'url=./img/car.jpg');
+
+					const win = open(el.dataset.pic, '', 'width=800, height=600');
+					console.log('screen', screen.width, screen.height);
+					// const win = open('about:blank', '', 'width=`${screen.width / 2}`, height=`${screen.width / 2}`');
+
+
+
+					// win.location.replace(buttonPic.dataset.pic);
+					// win.location.assign(el.dataset.pic);
+					win.moveBy(Number((screen.width - 800) / 2), Number((screen.width - 600) / 6));
+					// const width = window.screen.availWidth / 4;
+					// const height = window.screen.availHeight / 4;
+					// win.moveBy(width, height);
+
+				})
+			};
+
+		}
+
+
 	},
 	calculateItemPrice(arr, form) {
 		base.clear();
@@ -102,7 +151,7 @@ export const base = {
 		}),
 		this.totalPrice = ItemPrice;
 		let crmtotol = document.querySelector('.crm__total-price');
-		
+
 		crmtotol.innerHTML = `$ ${this.totalPrice }`;
 
 	}, 
@@ -113,6 +162,7 @@ export const base = {
 		return vcid;
 	},
 };
+
 
 
 const createData = (overlay) => {
@@ -173,6 +223,10 @@ const createData = (overlay) => {
 
 
 };
+
+
+
+
 
 
 
