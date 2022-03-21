@@ -1,6 +1,6 @@
 
 import deleteData from "./deleteData.js";
-
+let allimages = [];
 
 export const base = {
 	less: '',
@@ -20,7 +20,8 @@ export const base = {
 		if (this.skidka > 0) {
 			this.less = (Number(this.skidka) / 100);			
 		};
-	
+
+
 
 		newtr.innerHTML = `
 			<tr>
@@ -35,7 +36,7 @@ export const base = {
 				<td class="table__cell">$${objarr.price}</td>
 				<td class="table__cell">$${objarr.count * objarr.price}</td>
 				<td class="table__cell table__cell_btn-wrapper">
-					<button class="table__btn table__btn_pic" data-pic=''></button>
+					<button class="table__btn table__btn_pic"></button>
 					<button class="table__btn table__btn_edit"></button>
 					<button class="table__btn table__btn_del"></button>
 				</td>
@@ -64,7 +65,10 @@ export const base = {
 		};
 
 		this.less = 0;
-		console.log('newtr', newtr);
+
+		// console.log('newtr', newtr);
+		
+		
 		return newtr;
 	},
 	addel(formData, form, overlay) {
@@ -79,27 +83,58 @@ export const base = {
 		vendor.innerHTML = vcid;
 
 		newcontact.title = form.name.value;
-		
+
 		let el = base.createRow(newcontact, vcid);
 
 		el.classList.add('contact');
+
+
+
 		tb.append(el);
 		
+		/************/
+		//  ML3L1
 
+		
+		let oldString = form.image.value;
+		console.log('oldString: ', oldString);
+
+		let newsds = oldString.lastIndexOf("th");
+		console.log('newsds: ', newsds);
+
+		let getimage = oldString.slice(12);
+
+		getimage = "./img/" + getimage;
+		console.log('getimage: ', getimage);
+		// C:\fakepath\car.jpg
+		
+		allimages.push(getimage);
+		console.log('allimages', allimages);
+
+
+		
+
+		const buttonPic = document.querySelectorAll('.table__btn.table__btn_pic');
+		console.log('buttonPic', buttonPic[0]);
+
+		console.log(buttonPic[0].dataset.pic);
+
+	
+
+		for (let i = 0; i < buttonPic.length; i++) {
+			buttonPic[i].dataset.pic = allimages[i];
+			console.log('allimages[i]', allimages[i]);
+			console.log(i);
+		}
+	
+		
+
+		/*********** */
 
 		base.arr.push(newcontact);
 
-		/************/
+
 	
-		console.log('base.iamge.image', form.image.value);
-
-		const buttonPi = document.querySelector('.table__btn.table__btn_pic');
-		let oldString = form.image.value;
-
-		buttonPi.dataset.pic = oldString;
-		
-		/********** */
-
 		base.calculateItemPrice(base.arr, form);
 		deleteData(base.arr, form);
 
@@ -109,36 +144,29 @@ export const base = {
 		form.discount_count.setAttribute('disabled', 'true');
 		overlay.classList.remove('active');	
 
-		//  ML3L1
-		const buttonPic = document.querySelectorAll('.table__btn.table__btn_pic');
+		
+		
+		
 		if (buttonPic.length >= 1) {
 
+			// for (let i = 0; i < buttonPic.length; i++) {
 			for (el of buttonPic) {
+				el.addEventListener('click', (e) => {
+					e.preventDefault();
+					console.log('click', e.target);
 
-				el.addEventListener('click', () => {
-					console.log('click');
-					el.dataset.pic = './img/car.jpg';
-					// el.dataset.pic = form.image.value;
-					// el.dataset.pic = 'index.html';
-					// buttonPic.setAttribute('data-pic', 'url=./img/car.jpg');
-
-					const win = open(el.dataset.pic, '', 'width=800, height=600');
-					console.log('screen', screen.width, screen.height);
-					// const win = open('about:blank', '', 'width=`${screen.width / 2}`, height=`${screen.width / 2}`');
-
-
-
-					// win.location.replace(buttonPic.dataset.pic);
-					// win.location.assign(el.dataset.pic);
-					win.moveBy(Number((screen.width - 800) / 2), Number((screen.width - 600) / 6));
-					// const width = window.screen.availWidth / 4;
-					// const height = window.screen.availHeight / 4;
-					// win.moveBy(width, height);
+					if (e.target) {
+						const win = open(e.target.dataset.pic, '', 'width=800, height=600');
+						console.log('screen', screen.width, screen.height);
+						win.moveBy(Number((screen.width - 800) / 2), Number((screen.width - 600) / 6));
+					}
+					
 
 				})
 			};
 
-		}
+		};
+		
 
 
 	},
@@ -208,9 +236,30 @@ const createData = (overlay) => {
 				
 				const formData = new FormData(e.target);
 				base.addel(formData, form, overlay);
+				/************/
+				//  ML3L1
+				/*
+				const buttonPi = document.querySelector('.table__btn.table__btn_pic');
+		
+				let oldString = form.image.value;
+		
+				let newsds = oldString.lastIndexOf("th");
+				console.log('newsds: ', newsds);
+		
+				let getimage = oldString.slice(12);
+		
+				getimage = "./img/" + getimage;
+				console.log('getimage: ', getimage);
+				// C:\fakepath\car.jpg
+				console.log('oldString: ', oldString);
+		
+				buttonPi.dataset.pic = getimage;
+				console.log('buttonPi.dataset.pic', buttonPi.dataset.pic);
+				*/
+				/************/
 			}
 
-			
+
 		});
 	
 
@@ -220,7 +269,27 @@ const createData = (overlay) => {
 				
 			}
 		});	
+		/************/
+		//  ML3L1
+		/*
+		const buttonPi = document.querySelector('.table__btn.table__btn_pic');
 
+		let oldString = form.image.value;
+
+		let newsds = oldString.lastIndexOf("th");
+		console.log('newsds: ', newsds);
+
+		let getimage = oldString.slice(12);
+
+		getimage = "./img/" + getimage;
+		console.log('getimage: ', getimage);
+		// C:\fakepath\car.jpg
+		console.log('oldString: ', oldString);
+
+		buttonPi.dataset.pic = getimage;
+		console.log('buttonPi.dataset.pic', buttonPi.dataset.pic);
+		*/
+		/************/
 
 };
 
